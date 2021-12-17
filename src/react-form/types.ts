@@ -7,8 +7,14 @@ interface RegisterOptions {
 }
 
 export type FieldValues = Record<string, any>;
+export type Watcher = Record<string, (watchedValue: string) => void>;
 
 export interface FormState {}
+
+export interface FormInternalControls {
+  getWatcher: () => Watcher;
+  setWatcher: (watcher: Watcher) => void;
+}
 
 // --------------------------REACT FORM -------------------------------------
 
@@ -26,6 +32,7 @@ export interface FormControl<T> {
   ) => (event: React.FormEvent<HTMLFormElement>) => void;
   getValues: () => T;
   getErrors: () => T;
+  control: FormInternalControls;
 }
 
 export interface ReactFormValues<T> extends FormControl<T> {

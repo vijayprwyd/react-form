@@ -1,8 +1,7 @@
 import React from "react";
-import { FieldValues, FormControl, ValidateFunction } from "./types";
+import { FieldValues, FormControl, ValidateFunction, Watcher } from "./types";
 
 type Validators = Record<string, ValidateFunction>;
-// type Watchers = Record<string, (watchedValue: any) => void>;
 
 export const createFormControl = <
   TFieldValues extends FieldValues = FieldValues
@@ -13,12 +12,11 @@ export const createFormControl = <
   let values = (defaultValues || {}) as TFieldValues;
   let errors = {} as TFieldValues;
   let validators: Validators = {};
-  // let watchers: Watchers = {};
+  let watcher: Watcher = {};
 
   const updateErrorState = (name: string) => {
     if (validators[name]) {
       const error = validators[name](values[name]);
-
       if (errors[name] !== error) {
         errors = {
           ...errors,
@@ -44,6 +42,9 @@ export const createFormControl = <
             [name]: value,
           };
           updateErrorState(name);
+          if (watcher[name]) {
+            watcher[name](value);
+          }
         },
       };
     },
@@ -64,7 +65,9 @@ export const createFormControl = <
     // Getters
     getValues: () => values,
     getErrors: () => errors,
-    // Setters
-    // getWatchers: () => watchers,
+    control: {
+      getWatcher: () => watcher,
+      setWatcher: (w: Watcher) => (watcher = w),
+    },
   };
 };

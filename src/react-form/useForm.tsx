@@ -29,6 +29,7 @@ export const useForm = <TFieldValues extends FieldValues>(
     register: formControlRef.current.register,
     handleSubmit: formControlRef.current.handleSubmit,
     formState,
+    control: formControlRef.current.control,
     getValues: () =>
       formControlRef.current && formControlRef.current.getValues(),
   };

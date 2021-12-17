@@ -1,10 +1,12 @@
 import "./App.css";
-import ReactForm from "./ReactForm/ReactForm";
+// import ReactFormBasic from "./ReactForm/ReactFormBasic";
+import ReactFormWatch from "./ReactForm/ReactFormWatch";
 
 function App() {
   return (
     <div className="App">
-      <ReactForm />
+      {/* <ReactFormBasic /> */}
+      <ReactFormWatch/>
     </div>
   );
 }
